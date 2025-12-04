@@ -37,7 +37,7 @@ export interface AIResponse {
     providedIn: 'root'
 })
 export class WebSocketService {
-    private ws: WebSocket | null = null;
+    public ws: WebSocket | null = null;
     private reconnectTimeout: any;
 
     public connected = signal(false);

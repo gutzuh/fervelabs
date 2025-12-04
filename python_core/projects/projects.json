@@ -1,0 +1,26 @@
+{
+  "ferve-labs": {
+    "name": "Ferve Labs - James Foundation",
+    "path": "/home/isqne/Downloads/ferve-labs_-genesis-core",
+    "type": "angular",
+    "commands": {
+      "dev": "npm run dev -- --port 4300",
+      "build": "npm run build",
+      "install": "npm install --legacy-peer-deps"
+    },
+    "git_enabled": true,
+    "favorite": true
+  },
+  "dashboard": {
+    "name": "Dashboard 2",
+    "path": "/home/isqne/Downloads/dashboard-2-main",
+    "type": "fullstack",
+    "commands": {
+      "backend": "cd backend && npm run dev",
+      "frontend": "cd frontend && npm run dev",
+      "install_all": "cd backend && npm install && cd ../frontend && npm install"
+    },
+    "git_enabled": true,
+    "favorite": true
+  }
+}

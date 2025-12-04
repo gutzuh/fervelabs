@@ -8,13 +8,16 @@ import { NeuralVisComponent } from './components/neural-vis/neural-vis.component
 import { ArchitectureComponent } from './components/architecture/architecture.component';
 import { TerminalComponent } from './components/terminal/terminal.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { ProjectsComponent } from './components/projects/projects.component';
+import { ProductivityComponent } from './components/productivity/productivity.component';
+import { StudiesComponent } from './components/studies/studies.component';
 
-type Tab = 'DASHBOARD' | 'NEURAL' | 'ARCHITECTURE' | 'TERMINAL' | 'CHAT';
+type Tab = 'DASHBOARD' | 'NEURAL' | 'ARCHITECTURE' | 'TERMINAL' | 'CHAT' | 'PROJECTS' | 'PRODUCTIVITY' | 'STUDIES';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, NeuralVisComponent, ArchitectureComponent, TerminalComponent, ChatComponent],
+  imports: [CommonModule, NeuralVisComponent, ArchitectureComponent, TerminalComponent, ChatComponent, ProjectsComponent, ProductivityComponent, StudiesComponent],
   templateUrl: './app.component.html',
 })
 export class AppComponent {
