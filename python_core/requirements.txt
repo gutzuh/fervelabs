@@ -1,0 +1,8 @@
+ollama
+ncps
+eclipse-zenoh
+pymdp
+numpy
+torch
+websockets
+psutil

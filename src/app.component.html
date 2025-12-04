@@ -1,0 +1,168 @@
+<div class="min-h-screen flex flex-col md:flex-row bg-slate-950 text-emerald-500 overflow-hidden relative">
+
+  <!-- Sidebar / Nav -->
+  <aside
+    class="w-full md:w-64 glass-panel flex flex-col z-20 md:h-screen border-b md:border-b-0 md:border-r border-emerald-900/50">
+    <div class="p-6 border-b border-emerald-900/50">
+      <h1 class="text-2xl font-bold tracking-tighter text-emerald-400">FERVE<span class="text-white">LABS</span></h1>
+      <p class="text-xs text-emerald-700 mt-1 uppercase tracking-widest">Genesis Core v1.0</p>
+    </div>
+
+    <nav class="flex-1 p-4 space-y-2">
+      <button (click)="setTab('DASHBOARD')" [class.bg-emerald-900_30]="activeTab() === 'DASHBOARD'"
+        class="w-full text-left px-4 py-3 rounded hover:bg-emerald-900/20 transition-all border border-transparent hover:border-emerald-800 flex items-center group">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 mr-3 group-hover:animate-pulse"></span>
+        Status do Sistema
+      </button>
+
+      <button (click)="setTab('NEURAL')" [class.bg-emerald-900_30]="activeTab() === 'NEURAL'"
+        class="w-full text-left px-4 py-3 rounded hover:bg-emerald-900/20 transition-all border border-transparent hover:border-emerald-800 flex items-center group">
+        <svg class="w-4 h-4 mr-3 text-emerald-600 group-hover:text-emerald-400" fill="none" stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+        </svg>
+        Estado Líquido
+      </button>
+
+      <button (click)="setTab('ARCHITECTURE')" [class.bg-emerald-900_30]="activeTab() === 'ARCHITECTURE'"
+        class="w-full text-left px-4 py-3 rounded hover:bg-emerald-900/20 transition-all border border-transparent hover:border-emerald-800 flex items-center group">
+        <svg class="w-4 h-4 mr-3 text-emerald-600 group-hover:text-emerald-400" fill="none" stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+          </path>
+        </svg>
+        Laboratório (Docs)
+      </button>
+
+      <button (click)="setTab('TERMINAL')" [class.bg-emerald-900_30]="activeTab() === 'TERMINAL'"
+        class="w-full text-left px-4 py-3 rounded hover:bg-emerald-900/20 transition-all border border-transparent hover:border-emerald-800 flex items-center group">
+        <svg class="w-4 h-4 mr-3 text-emerald-600 group-hover:text-emerald-400" fill="none" stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3"></path>
+        </svg>
+        Terminal Daemon
+      </button>
+
+      <button (click)="setTab('CHAT')" [class.bg-emerald-900/30]="activeTab() === 'CHAT'"
+        class="w-full text-left px-4 py-3 rounded hover:bg-emerald-900/20 transition-all border border-transparent hover:border-emerald-800 flex items-center group">
+        <svg class="w-4 h-4 mr-3 text-emerald-600 group-hover:text-emerald-400" fill="none" stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z">
+          </path>
+        </svg>
+        James AI Chat
+      </button>
+    </nav>
+
+    <div class="p-4 border-t border-emerald-900/50 text-xs text-emerald-800">
+      <div class="flex justify-between items-center mb-1">
+        <span>CONEXÃO API</span>
+        <span [class.text-green-500]="geminiService.isConfigured()"
+          [class.text-red-500]="!geminiService.isConfigured()">
+          {{ geminiService.isConfigured() ? 'SEGURA' : 'OFFLINE' }}
+        </span>
+      </div>
+      <div>MESH ID: <span class="text-emerald-600">x99-br-alpha</span></div>
+    </div>
+  </aside>
+
+  <!-- Main Area -->
+  <main class="flex-1 p-6 overflow-y-auto h-screen relative z-10">
+
+    @if (activeTab() === 'DASHBOARD') {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 animate-[fadeIn_0.5s_ease-out]">
+      <!-- Stat Cards -->
+      <div class="glass-panel p-4 rounded border-l-4 border-emerald-500">
+        <div class="text-emerald-700 text-xs uppercase font-bold mb-1">CPU Usage</div>
+        <div class="text-3xl text-white font-mono">{{ cpuPercent() }}%</div>
+        <div class="text-emerald-600 text-xs mt-2">
+          @if (connected()) {
+          <span class="text-green-400">● Live</span>
+          } @else {
+          <span class="text-red-400">● Disconnected</span>
+          }
+        </div>
+      </div>
+
+      <div class="glass-panel p-4 rounded border-l-4 border-blue-500">
+        <div class="text-blue-700 text-xs uppercase font-bold mb-1">Memory Usage</div>
+        <div class="text-3xl text-white font-mono">{{ memoryPercent() }}%</div>
+        <div class="text-blue-600 text-xs mt-2">{{ memoryUsedGB() }} GB / {{ memoryTotalGB() }} GB</div>
+      </div>
+
+      <div class="glass-panel p-4 rounded border-l-4 border-purple-500">
+        <div class="text-purple-700 text-xs uppercase font-bold mb-1">Disk Usage</div>
+        <div class="text-3xl text-white font-mono">{{ diskPercent() }}%</div>
+        <div class="text-purple-600 text-xs mt-2">System Drive</div>
+      </div>
+
+      <div class="glass-panel p-4 rounded border-l-4 border-orange-500">
+        <div class="text-orange-700 text-xs uppercase font-bold mb-1">Connection</div>
+        <div class="text-3xl text-white font-mono">
+          @if (connected()) {
+          <span class="text-green-400">ONLINE</span>
+          } @else {
+          <span class="text-red-400">OFFLINE</span>
+          }
+        </div>
+        <div class="text-orange-600 text-xs mt-2">ws://localhost:8765</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[500px]">
+      <!-- Mesh Map Mockup -->
+      <div class="lg:col-span-2 glass-panel p-1 rounded relative overflow-hidden group">
+        <div
+          class="absolute top-2 left-2 z-10 text-xs bg-black/50 px-2 py-1 border border-emerald-900 text-emerald-400">
+          GEOSPATIAL MESH (BRASIL)</div>
+        <app-neural-vis [mode]="'MESH'"></app-neural-vis>
+      </div>
+
+      <!-- Activity Log -->
+      <div class="glass-panel p-4 rounded overflow-hidden flex flex-col">
+        <h3 class="text-sm font-bold border-b border-emerald-900/50 pb-2 mb-2 text-emerald-300">DAEMON LOG</h3>
+        <div class="flex-1 overflow-y-auto space-y-2 text-xs font-mono text-emerald-600">
+          @for (log of logs(); track $index) {
+          <div class="flex gap-2 animate-[fadeIn_0.3s_ease-out]">
+            <span class="text-emerald-800">[{{ log.timestamp }}]</span>
+            <span [class.text-white]="log.source === 'Active Inference'"
+              [class.text-orange-400]="log.source === 'SYSTEM'" [class.text-purple-400]="log.source === 'BRAIN'">
+              {{ log.source }}:
+            </span>
+            <span>{{ log.message }}</span>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+    }
+
+    @if (activeTab() === 'NEURAL') {
+    <div class="h-full flex flex-col glass-panel rounded overflow-hidden p-1">
+      <div class="absolute top-8 left-8 z-10 pointer-events-none">
+        <h2 class="text-2xl font-bold text-white mb-2">ESTADO NEURAL LÍQUIDO</h2>
+        <p class="text-emerald-500 text-sm max-w-md bg-black/80 p-2 border border-emerald-900">
+          Visualizando plasticidade sináptica em tempo real. Diferente de Transformers estáticos, LNNs reescrevem pesos
+          continuamente durante a inferência.
+        </p>
+      </div>
+      <app-neural-vis [mode]="'NEURAL'" class="flex-1"></app-neural-vis>
+    </div>
+    }
+
+    @if (activeTab() === 'ARCHITECTURE') {
+    <app-architecture></app-architecture>
+    }
+
+    @if (activeTab() === 'TERMINAL') {
+    <app-terminal></app-terminal>
+    }
+
+    @if (activeTab() === 'CHAT') {
+    <app-chat></app-chat>
+    }
+
+  </main>
+</div>
